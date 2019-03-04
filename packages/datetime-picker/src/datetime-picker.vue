@@ -334,6 +334,7 @@
       rimDetect(result, rim) {
         let position = rim === 'start' ? 0 : 1;
         let rimDate = rim === 'start' ? this.startDate : this.endDate;
+        console.log('rimDate', rimDate);
         if (this.getYear(this.currentValue) === rimDate.getFullYear()) {
           result.month[position] = rimDate.getMonth() + 1;
           if (this.getMonth(this.currentValue) === rimDate.getMonth() + 1) {
@@ -353,15 +354,17 @@
       },
 
       getYear(value) {
-        return this.isDateString(value) ? value.split(' ')[0].split(/-|\/|\./)[0] : value.getFullYear();
+        console.log('getYear', value);
+        console.log('isDateString', this.isDateString(value));
+        return this.isDateString(value) ? value.split(' ')[0].split(/-|\/|\./)[0] : value === '至今' ? '' : value.getFullYear();
       },
 
       getMonth(value) {
-        return this.isDateString(value) ? value.split(' ')[0].split(/-|\/|\./)[1] : value.getMonth() + 1;
+        return this.isDateString(value) ? value.split(' ')[0].split(/-|\/|\./)[1] : value === '至今' ? '' : value.getMonth() + 1;
       },
 
       getDate(value) {
-        return this.isDateString(value) ? value.split(' ')[0].split(/-|\/|\./)[2] : value.getDate();
+        return this.isDateString(value) ? value.split(' ')[0].split(/-|\/|\./)[2] : value === '至今' ? '' : value.getDate();
       },
 
       getHour(value) {
@@ -369,7 +372,7 @@
           const str = value.split(' ')[1] || '00:00:00';
           return str.split(':')[0];
         }
-        return value.getHours();
+        return value === '至今' ? '' : value.getHours();
       },
 
       getMinute(value) {
@@ -377,7 +380,7 @@
           const str = value.split(' ')[1] || '00:00:00';
           return str.split(':')[1];
         }
-        return value.getMinutes();
+        return value === '至今' ? '' : value.getMinutes();
       },
 
       confirm() {
@@ -401,6 +404,7 @@
           };
           return result;
         }
+        console.log('rims', this.endDate);
         result = {
           year: [this.startDate.getFullYear(), this.endDate.getFullYear()],
           month: [1, 12],
