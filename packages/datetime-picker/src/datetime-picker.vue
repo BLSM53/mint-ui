@@ -5,9 +5,11 @@
       @change="onChange"
       :visible-item-count="visibleItemCount"
       class="mint-datetime-picker"
+      :class="{'show-for-now': isForNowShow}"
       ref="picker"
       show-toolbar>
       <span class="mint-datetime-action mint-datetime-cancel" @click="visible = false;$emit('cancel')">{{ cancelText }}</span>
+      <span v-if="isForNowShow" class="mint-datetime-action mint-datetime-cancel" @click="visible = false;$emit('forNow')">{{ forNowText }}</span>
       <span class="mint-datetime-action mint-datetime-confirm" @click="confirm">{{ confirmText }}</span>
     </mt-picker>
   </mt-popup>
@@ -26,6 +28,11 @@
 
       .picker-toolbar {
         border-bottom: solid 1px #eaeaea;
+        overflow: hidden;
+      }
+
+      .show-for-now .mint-datetime-action {
+        width: 33.33%;
       }
 
       @descendent action {
@@ -72,9 +79,17 @@
         type: String,
         default: '取消'
       },
+      forNowText: {
+        type: String,
+        default: '至今'
+      },
       confirmText: {
         type: String,
         default: '确定'
+      },
+      isForNowShow: {
+        type: Boolean,
+        default: false
       },
       type: {
         type: String,

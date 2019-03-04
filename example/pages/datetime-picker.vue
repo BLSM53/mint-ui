@@ -12,6 +12,7 @@
       ref="picker1"
       v-model="value"
       :closeOnClickModal="false"
+      :isForNowShow="true"
       @visible-change="handleVisibleChange"
       @confirm="handleChange">
     </mt-datetime-picker>
