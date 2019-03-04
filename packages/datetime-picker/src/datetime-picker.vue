@@ -363,15 +363,15 @@
       getYear(value) {
         console.log('getYear', value);
         console.log('isDateString', this.isDateString(value));
-        return this.isDateString(value) ? value.split(' ')[0].split(/-|\/|\./)[0] : value === '至今' ? '' : value.getFullYear();
+        return this.isDateString(value) ? value.split(' ')[0].split(/-|\/|\./)[0] : value === '至今' ? new Date().getFullYear() : value.getFullYear();
       },
 
       getMonth(value) {
-        return this.isDateString(value) ? value.split(' ')[0].split(/-|\/|\./)[1] : value === '至今' ? '' : value.getMonth() + 1;
+        return this.isDateString(value) ? value.split(' ')[0].split(/-|\/|\./)[1] : value === '至今' ? new Date().getMonth() + 1 : value.getMonth() + 1;
       },
 
       getDate(value) {
-        return this.isDateString(value) ? value.split(' ')[0].split(/-|\/|\./)[2] : value === '至今' ? '' : value.getDate();
+        return this.isDateString(value) ? value.split(' ')[0].split(/-|\/|\./)[2] : value === '至今' ? new Date().getDate() : value.getDate();
       },
 
       getHour(value) {
@@ -379,7 +379,7 @@
           const str = value.split(' ')[1] || '00:00:00';
           return str.split(':')[0];
         }
-        return value === '至今' ? '' : value.getHours();
+        return value === '至今' ? new Date().getHours() : value.getHours();
       },
 
       getMinute(value) {
@@ -387,7 +387,7 @@
           const str = value.split(' ')[1] || '00:00:00';
           return str.split(':')[1];
         }
-        return value === '至今' ? '' : value.getMinutes();
+        return value === '至今' ? new Date().getMinutes() : value.getMinutes();
       },
 
       confirm() {
