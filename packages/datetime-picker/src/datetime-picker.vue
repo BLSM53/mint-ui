@@ -9,7 +9,7 @@
       ref="picker"
       show-toolbar>
       <span class="mint-datetime-action mint-datetime-cancel" @click="visible = false;$emit('cancel')">{{ cancelText }}</span>
-      <span v-if="isForNowShow" class="mint-datetime-action mint-datetime-cancel"
+      <span v-if="isForNowShow" class="mint-datetime-action mint-datetime-now"
             :class="{'for-now-active': value === '至今'}"
             @click="visible = false;$emit('forNow')"
           >{{ forNowText }}</span>
@@ -36,6 +36,10 @@
 
       .show-for-now .mint-datetime-action {
         width: 33.33%;
+      }
+
+      .mint-datetime-now {
+        text-align: center;
       }
 
       @descendent action {

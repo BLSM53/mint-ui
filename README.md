@@ -12,7 +12,8 @@
 - [Homepage](http://mint-ui.github.io)
 - [Documentation](http://mint-ui.github.io/docs)
 
-
+## Remark
+为 mint-ui 的 datetime-picker 添加至今选项
 
 ## Installation
 ```shell

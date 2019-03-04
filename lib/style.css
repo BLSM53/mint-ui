@@ -1819,6 +1819,9 @@ display: inline-block;
 .mint-datetime .show-for-now .mint-datetime-action {
     width: 33.33%;
 }
+.mint-datetime .mint-datetime-now {
+    text-align: center;
+}
 .mint-datetime-action {
     display: inline-block;
     width: 50%;
