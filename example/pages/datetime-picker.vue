@@ -69,7 +69,7 @@
   export default {
     data() {
       return {
-        value: '至今',
+        value: null,
         value2: null,
         value3: null,
         value4: null,

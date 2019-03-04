@@ -9,7 +9,10 @@
       ref="picker"
       show-toolbar>
       <span class="mint-datetime-action mint-datetime-cancel" @click="visible = false;$emit('cancel')">{{ cancelText }}</span>
-      <span v-if="isForNowShow" class="mint-datetime-action mint-datetime-cancel" @click="visible = false;$emit('forNow')">{{ forNowText }}</span>
+      <span v-if="isForNowShow" class="mint-datetime-action mint-datetime-cancel"
+            :class="{'for-now-active': value === '至今'}"
+            @click="visible = false;$emit('forNow')"
+          >{{ forNowText }}</span>
       <span class="mint-datetime-action mint-datetime-confirm" @click="confirm">{{ confirmText }}</span>
     </mt-picker>
   </mt-popup>
