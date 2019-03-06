@@ -13,8 +13,10 @@
       v-model="value"
       :closeOnClickModal="false"
       :isForNowShow="true"
+      :isForNowActive="forNowActive"
       @visible-change="handleVisibleChange"
-      @confirm="handleChange">
+      @confirm="handleChange"
+      @forNow="handleForNow">
     </mt-datetime-picker>
     <mt-datetime-picker
       ref="picker2"
@@ -78,16 +80,17 @@
         visible2: false,
         visible3: false,
         visible4: false,
-        visible5: false
+        visible5: false,
+        forNowActive: false
       };
     },
-
     methods: {
       open(picker) {
         this.$refs[picker].open();
       },
 
       handleChange(value) {
+        this.forNowActive = false;
         Toast({
           message: '已选择 ' + value.toString(),
           position: 'bottom'
@@ -96,6 +99,12 @@
 
       handleVisibleChange(isVisible) {
         console.log('弹窗是否展示:', isVisible);
+      },
+
+      handleForNow() {
+        this.forNowActive = true;
+        this.value = new Date();
+        // this.value = '至今';
       }
     }
   };

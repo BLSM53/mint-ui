@@ -1814,13 +1814,6 @@ display: inline-block;
 }
 .mint-datetime .picker-toolbar {
     border-bottom: solid 1px #eaeaea;
-    overflow: hidden;
-}
-.mint-datetime .show-for-now .mint-datetime-action {
-    width: 33.33%;
-}
-.mint-datetime .mint-datetime-now {
-    text-align: center;
 }
 .mint-datetime-action {
     display: inline-block;
@@ -1828,7 +1821,8 @@ display: inline-block;
     text-align: center;
     line-height: 40px;
     font-size: 16px;
-    color: #26a2ff;
+    color: $;
+    background-color: color-blue;
 }
 .mint-datetime-cancel {
     float: left;
