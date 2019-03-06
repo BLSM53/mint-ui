@@ -5,6 +5,7 @@
         @change="onChange"
         :visible-item-count="visibleItemCount"
         class="mint-datetime-picker"
+        :class="{'show-for-now': isForNowShow}"
         ref="picker"
         show-toolbar>
       <span class="mint-datetime-action mint-datetime-cancel" @click="visible = false;$emit('cancel')">{{ cancelText }}</span>
