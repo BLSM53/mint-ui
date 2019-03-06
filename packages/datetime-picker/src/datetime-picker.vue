@@ -1,18 +1,17 @@
 <template>
   <mt-popup v-model="visible" :closeOnClickModal="closeOnClickModal" position="bottom" class="mint-datetime">
     <mt-picker
-      :slots="dateSlots"
-      @change="onChange"
-      :visible-item-count="visibleItemCount"
-      class="mint-datetime-picker"
-      :class="{'show-for-now': isForNowShow}"
-      ref="picker"
-      show-toolbar>
+        :slots="dateSlots"
+        @change="onChange"
+        :visible-item-count="visibleItemCount"
+        class="mint-datetime-picker"
+        ref="picker"
+        show-toolbar>
       <span class="mint-datetime-action mint-datetime-cancel" @click="visible = false;$emit('cancel')">{{ cancelText }}</span>
       <span v-if="isForNowShow" class="mint-datetime-action mint-datetime-now"
-            :class="{'for-now-active': value === '至今'}"
-            @click="visible = false;$emit('forNow')"
-          >{{ forNowText }}</span>
+          :class="{'for-now-active': isForNowActive}"
+          @click="visible = false;$emit('forNow')"
+      >{{ forNowText }}</span>
       <span class="mint-datetime-action mint-datetime-confirm" @click="confirm">{{ confirmText }}</span>
     </mt-picker>
   </mt-popup>
@@ -23,23 +22,15 @@
 
   @component-namespace mint {
     @component datetime {
-      width: 100%;
+      width:
 
+    100%;
       .picker-slot-wrapper, .picker-item {
         backface-visibility: hidden;
       }
 
       .picker-toolbar {
         border-bottom: solid 1px #eaeaea;
-        overflow: hidden;
-      }
-
-      .show-for-now .mint-datetime-action {
-        width: 33.33%;
-      }
-
-      .mint-datetime-now {
-        text-align: center;
       }
 
       @descendent action {
@@ -48,13 +39,11 @@
         text-align: center;
         line-height: 40px;
         font-size: 16px;
-        color: $color-blue;
+        color: $ color-blue;
       }
-
       @descendent cancel {
         float: left;
       }
-
       @descendent confirm {
         float: right;
       }
@@ -65,11 +54,11 @@
 <script type="text/babel">
   import picker from 'mint-ui/packages/picker/index.js';
   import popup from 'mint-ui/packages/popup/index.js';
+
   if (process.env.NODE_ENV === 'component') {
     require('mint-ui/packages/picker/style.css');
     require('mint-ui/packages/popup/style.css');
   }
-
   const FORMAT_MAP = {
     Y: 'year',
     M: 'month',
@@ -77,26 +66,20 @@
     H: 'hour',
     m: 'minute'
   };
-
   export default {
     name: 'mt-datetime-picker',
-
     props: {
       cancelText: {
         type: String,
         default: '取消'
       },
-      forNowText: {
-        type: String,
-        default: '至今'
-      },
       confirmText: {
         type: String,
         default: '确定'
       },
-      isForNowShow: {
-        type: Boolean,
-        default: false
+      forNowText: {
+        type: String,
+        default: '至今'
       },
       type: {
         type: String,
@@ -150,9 +133,16 @@
         type: Boolean,
         default: true
       },
+      isForNowShow: {
+        type: Boolean,
+        default: false
+      },
+      isForNowActive: {
+        type: Boolean,
+        default: false
+      },
       value: null
     },
-
     data() {
       return {
         visible: false,
@@ -171,29 +161,23 @@
         leapFebDates: []
       };
     },
-
     components: {
       'mt-picker': picker,
       'mt-popup': popup
     },
-
     methods: {
       open() {
         this.visible = true;
       },
-
       close() {
         this.visible = false;
       },
-
       isLeapYear(year) {
         return (year % 400 === 0) || (year % 100 !== 0 && year % 4 === 0);
       },
-
       isShortMonth(month) {
         return [4, 6, 9, 11].indexOf(month) > -1;
       },
-
       getMonthEndDay(year, month) {
         if (this.isShortMonth(month)) {
           return 30;
@@ -203,7 +187,6 @@
           return 31;
         }
       },
-
       getTrueValue(formattedValue) {
         if (!formattedValue) return;
         while (isNaN(parseInt(formattedValue, 10))) {
@@ -211,7 +194,6 @@
         }
         return parseInt(formattedValue, 10);
       },
-
       getValue(values) {
         let value;
         if (this.type === 'time') {
@@ -231,9 +213,7 @@
         }
         return value;
       },
-
       onChange(picker) {
-        console.log('onChange', this.value);
         let values = picker.$children.filter(child => child.currentValue !== undefined).map(child => child.currentValue);
         if (this.selfTriggered) {
           this.selfTriggered = false;
@@ -244,7 +224,6 @@
           this.handleValueChange();
         }
       },
-
       fillValues(type, start, end) {
         let values = [];
         for (let i = start; i <= end; i++) {
@@ -256,14 +235,12 @@
         }
         return values;
       },
-
       pushSlots(slots, type, start, end) {
         slots.push({
           flex: 1,
           values: this.fillValues(type, start, end)
         });
       },
-
       generateSlots() {
         let dateSlots = [];
         const INTERVAL_MAP = {
@@ -288,7 +265,6 @@
         this.dateSlots = dateSlots;
         this.handleExceededValue();
       },
-
       handleExceededValue() {
         let values = [];
         if (this.type === 'time') {
@@ -320,7 +296,6 @@
           this.setSlotsByValues(values);
         });
       },
-
       setSlotsByValues(values) {
         const setSlotValue = this.$refs.picker.setSlotValue;
         if (this.type === 'time') {
@@ -338,7 +313,6 @@
         }
         [].forEach.call(this.$refs.picker.$children, child => child.doOnValueChange());
       },
-
       rimDetect(result, rim) {
         let position = rim === 'start' ? 0 : 1;
         let rimDate = rim === 'start' ? this.startDate : this.endDate;
@@ -355,53 +329,43 @@
           }
         }
       },
-
       isDateString(str) {
         return /\d{4}(\-|\/|.)\d{1,2}\1\d{1,2}/.test(str);
       },
-
       getYear(value) {
-        return this.isDateString(value) ? value.split(' ')[0].split(/-|\/|\./)[0] : value === '至今' ? '' : value.getFullYear();
+        return this.isDateString(value) ? value.split(' ')[0].split(/-|\/|\./)[0] : value.getFullYear();
       },
-
       getMonth(value) {
-        return this.isDateString(value) ? value.split(' ')[0].split(/-|\/|\./)[1] : value === '至今' ? '' : value.getMonth() + 1;
+        return this.isDateString(value) ? value.split(' ')[0].split(/-|\/|\./)[1] : value.getMonth() + 1;
       },
-
       getDate(value) {
-        return this.isDateString(value) ? value.split(' ')[0].split(/-|\/|\./)[2] : value === '至今' ? '' : value.getDate();
+        return this.isDateString(value) ? value.split(' ')[0].split(/-|\/|\./)[2] : value.getDate();
       },
-
       getHour(value) {
         if (this.isDateString(value)) {
           const str = value.split(' ')[1] || '00:00:00';
           return str.split(':')[0];
         }
-        return value === '至今' ? '' : value.getHours();
+        return value.getHours();
       },
-
       getMinute(value) {
         if (this.isDateString(value)) {
           const str = value.split(' ')[1] || '00:00:00';
           return str.split(':')[1];
         }
-        return value === '至今' ? '' : value.getMinutes();
+        return value.getMinutes();
       },
-
       confirm() {
         this.visible = false;
         this.$emit('confirm', this.currentValue);
       },
-
       handleValueChange() {
         this.$emit('input', this.currentValue);
       }
     },
-
     computed: {
       rims() {
-        console.log('rims computed', this.currentValue, this.value);
-        if (!this.currentValue) return { year: [], month: [], date: [], hour: [], min: [] };
+        if (!this.currentValue) return {year: [], month: [], date: [], hour: [], min: []};
         let result;
         if (this.type === 'time') {
           result = {
@@ -421,7 +385,6 @@
         this.rimDetect(result, 'end');
         return result;
       },
-
       typeStr() {
         if (this.type === 'time') {
           return 'Hm';
@@ -432,29 +395,24 @@
         }
       }
     },
-
     watch: {
       value(val) {
-        console.log('value', val);
         this.currentValue = val;
       },
-
       rims() {
         this.generateSlots();
       },
-
       visible(val) {
         this.$emit('visible-change', val);
       }
     },
-
     mounted() {
       this.currentValue = this.value;
       if (!this.value) {
         if (this.type.indexOf('date') > -1) {
           this.currentValue = this.startDate;
         } else {
-          this.currentValue = `${ ('0' + this.startHour).slice(-2) }:00`;
+          this.currentValue = `${('0' + this.startHour).slice(-2)}:00`;
         }
       }
       this.generateSlots();
